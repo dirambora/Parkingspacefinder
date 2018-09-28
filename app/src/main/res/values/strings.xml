@@ -9,4 +9,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_home2">Map</string>
     <string name="title_activity_maps">Map</string>
+    <string name="setting_enabled" translatable="false">EnabledSetting</string>
+    <string name="need_location_permission_message">You need to enable location permissions first</string>
+    <string name="settings_label">Settings</string>
+    <string name="location_permissions">Location Permissions</string>
+    <string name="enable_geofences">Enable Geofences</string>
+    <string name="title_activity_profile">Profile</string>
 </resources>

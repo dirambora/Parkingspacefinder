@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/existing"
+        android:title="Select Existing Photo"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/camera_photo"
+        android:title="Take new photo"
+        app:showAsAction="never" />
+</menu>

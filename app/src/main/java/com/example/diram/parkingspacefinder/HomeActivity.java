@@ -2,15 +2,16 @@ package com.example.diram.parkingspacefinder;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,8 +20,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.diram.parkingspacefinder.ini.Constant;
+import com.example.diram.parkingspacefinder.models.AppState;
+import com.example.diram.parkingspacefinder.models.Profile;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -39,46 +47,34 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
     private GoogleMap mMap;
+    private Context context;
     private SupportMapFragment mapFragment;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
     private DrawerLayout mDrawerLayout;
+    private Profile userProfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigationactivity);
-
-
-
+        context = this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu2);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
 
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-
-                        return true;
-                    }
-                });
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -88,6 +84,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        userProfile = Constant.getUserProfile(this);
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.username)).setText(userProfile.getName());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).setText(userProfile.getEmail());
+
+        Glide.with(this)
+                .load(userProfile.getIconPath())
+                .into(((ImageView) navigationView.getHeaderView(0).findViewById(R.id.userlogo)));
     }
 
 
@@ -113,8 +116,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 buildGoogleApiClient();
                 mMap.setMyLocationEnabled(true);
             }
-        }
-        else {
+        } else {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
@@ -177,9 +179,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    public boolean checkLocationPermission(){
+
+    public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -244,10 +246,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
@@ -255,8 +259,45 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+            Intent profile = new Intent(context, com.example.diram.parkingspacefinder.ini.Profile.class);
+            startActivity(profile);
+            // Handle the camera action
+        } else if (id == R.id.nav_history) {
+            Intent history = new Intent(context, HistoryActivity.class);
+            startActivity(history);
+
+            Toast.makeText(this, "History", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_notifications) {
+
+        } else if (id == R.id.nav_about) {
+            Intent about = new Intent(context, AboutActivity.class);
+            startActivity(about);
+
+        } else if (id == R.id.nav_logout) {
+            //MY LOGOUT LOGIC HERE
+            //JUST CALL PROFILE OBJECT BY CALLING CLEAR PROFILE LOGIC?
+        } else if (id == R.id.nav_help) {
+            Intent help = new Intent(context, HelpActivity.class);
+            startActivity(help);
+
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
 }
