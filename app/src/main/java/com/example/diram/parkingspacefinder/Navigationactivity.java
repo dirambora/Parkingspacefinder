@@ -17,8 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.diram.parkingspacefinder.ini.Profile;
-
 public class Navigationactivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Context context;
@@ -88,7 +86,7 @@ public class Navigationactivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent profile = new Intent(Navigationactivity.this, Profile.class);
+            Intent profile = new Intent(Navigationactivity.this, ProfileActivity.class);
             startActivity(profile);
             // Handle the camera action
         } else if (id == R.id.nav_history) {

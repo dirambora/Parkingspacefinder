@@ -1,43 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="main.HomeActivity">
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomeActivity"
         class="com.google.android.gms.maps.SupportMapFragment"/>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
+
+
+
+
+
+
 
         <com.arlib.floatingsearchview.FloatingSearchView
-            android:id="@+id/floating_search_view"
+        android:id="@+id/search_place"
+        android:layout_width="match_parent"
+        android:layout_height="507dp"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        app:floatingSearch_dimBackground="true"
+        app:floatingSearch_leftActionMode="showHamburger"
+        app:floatingSearch_menu="@menu/search_view"
+        app:floatingSearch_searchBarMarginLeft="8dp"
+        app:floatingSearch_searchBarMarginRight="8dp"
+        app:floatingSearch_searchBarMarginTop="8dp"
+        app:floatingSearch_searchHint="Search"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_suggestionsListAnimDuration="250"
+       >
+
+
+
+
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        <!-- <include
+             android:layout_marginTop="80dp"
+             layout="@layout/header"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" />-->
+
+
+        <TextView
+            android:id="@+id/search_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:floatingSearch_close_search_on_keyboard_dismiss="false"
-            app:floatingSearch_dimBackground="false"
-            app:floatingSearch_dismissOnOutsideTouch="true"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginEnd="150dp"
+            android:layout_marginLeft="54dp"
+            android:layout_marginRight="150dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="22dp"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true" />
 
-            app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
-            app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
-            app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
-            app:floatingSearch_searchHint="Search..."
-            app:floatingSearch_showSearchKey="true"
-            app:floatingSearch_suggestionsListAnimDuration="250"/>
+    </com.arlib.floatingsearchview.FloatingSearchView>
 
-    </android.support.v7.widget.Toolbar>
+
+    </android.support.v4.widget.DrawerLayout>
+
+
 
 </FrameLayout>
 

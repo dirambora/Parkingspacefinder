@@ -4,7 +4,6 @@ package com.example.diram.parkingspacefinder;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -15,9 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,15 +22,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.bumptech.glide.Glide;
+import com.example.diram.parkingspacefinder.helper.Alert;
 import com.example.diram.parkingspacefinder.ini.Constant;
-import com.example.diram.parkingspacefinder.models.AppState;
 import com.example.diram.parkingspacefinder.models.Profile;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -44,7 +50,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class
+HomeActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, NavigationView.OnNavigationItemSelectedListener {
@@ -54,27 +61,85 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private SupportMapFragment mapFragment;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
+    Marker marker;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
     private DrawerLayout mDrawerLayout;
     private Profile userProfile;
+    FloatingSearchView mSearchView;
+    private PlaceAutocompleteFragment placeAutocompleteFragment;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigationactivity);
+
+
+        placeAutocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        placeAutocompleteFragment.setFilter(new AutocompleteFilter.Builder().
+                setTypeFilter(Place.TYPE_COUNTRY).setCountry("KE").build());
+
+
+        placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                final LatLng latLngLoc = place.getLatLng();
+
+                if(marker!=null){
+                    marker.remove();
+                }
+                marker = mMap.addMarker(new MarkerOptions().position(latLngLoc).title(place.getName().toString()));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+            }
+
+            @Override
+            public void onError(Status status) {
+                Toast.makeText(HomeActivity.this, ""+status.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
         context = this;
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu2);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+       // ActionBar actionbar = getSupportActionBar();
+        //actionbar.setDisplayHomeAsUpEnabled(true);
+        //actionbar.setHomeAsUpIndicator(R.drawable.ic_menu2);
+
+
+
+
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+        mSearchView = findViewById(R.id.search_place);
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+
+            }
+        });
+
+
+
+        //now search view controlling drawer open/closer
+        mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
+
+
+
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -92,6 +157,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .load(userProfile.getIconPath())
                 .into(((ImageView) navigationView.getHeaderView(0).findViewById(R.id.userlogo)));
     }
+
+
+
+
+
 
 
     /**
@@ -238,7 +308,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     // Permission denied, Disable the functionality that depends on this permission.
                     Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
                 }
-                return;
             }
 
             // other 'case' lines to check for other permissions this app might request.
@@ -266,7 +335,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent profile = new Intent(context, com.example.diram.parkingspacefinder.ini.Profile.class);
+            Intent profile = new Intent(context, ProfileActivity.class);
             startActivity(profile);
             // Handle the camera action
         } else if (id == R.id.nav_history) {
@@ -276,6 +345,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this, "History", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_notifications) {
 
+            Intent notification = new Intent(context, NotificationActivity.class);
+            startActivity(notification);
+
+            Toast.makeText(this, "History", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_about) {
             Intent about = new Intent(context, AboutActivity.class);
             startActivity(about);
@@ -283,6 +356,31 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else if (id == R.id.nav_logout) {
             //MY LOGOUT LOGIC HERE
             //JUST CALL PROFILE OBJECT BY CALLING CLEAR PROFILE LOGIC?
+
+            final Alert alert = new Alert(this);
+            alert.setCancelable(true);
+            View view = alert.setView(R.layout.confirm_logout);
+            TextView textView = view.findViewById(R.id.message);
+            TextView header = view.findViewById(R.id.header);
+            textView.setText("Are you sure you want to logout?");
+            header.setText("Message");
+            view.findViewById(R.id.positive_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert.dismissAlertDialogue();
+                }
+            });
+            view.findViewById(R.id.negative_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Constant.logOutUser(context);
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+            alert.showAlertDialogue(false);
         } else if (id == R.id.nav_help) {
             Intent help = new Intent(context, HelpActivity.class);
             startActivity(help);
@@ -298,6 +396,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
+
+
 
 
 }

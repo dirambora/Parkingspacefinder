@@ -1,4 +1,4 @@
-package com.example.diram.parkingspacefinder.ini;
+package com.example.diram.parkingspacefinder;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -25,10 +23,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.diram.parkingspacefinder.HomeActivity;
-import com.example.diram.parkingspacefinder.LoginActivity;
-import com.example.diram.parkingspacefinder.R;
-import com.example.diram.parkingspacefinder.RegisterActivity;
 import com.example.diram.parkingspacefinder.helper.Progress;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -40,7 +34,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class Profile extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class ProfileActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private static final int CODE_GET_REQUEST = 1024;
     private static final int CODE_POST_REQUEST = 1025;
 
@@ -57,15 +51,8 @@ public class Profile extends AppCompatActivity implements PopupMenu.OnMenuItemCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        context = this;
-        if (Constant.getUserProfile(context).isLoggedIn()) {
-            finish();
-        }
-
-
-        userprofile1 = findViewById(R.id.imageView4);
-
-
+    context = this;
+    userprofile1 = findViewById(R.id.imageView4);
     }
 
     public void onClick(View view) {
@@ -84,7 +71,7 @@ public class Profile extends AppCompatActivity implements PopupMenu.OnMenuItemCl
                 .setMultipartParameter("email", email.getText().toString())
                 .setMultipartParameter("password", password.getText().toString())
                 .setMultipartParameter("mobilenumber", mobilenumber.getText().toString())
-                //.setMultipartFile("iconPath", new File(photo.))
+               // .setMultipartFile("iconPath", new File(photo))
                 .setMultipartParameter("action", "save")
                 .asString()
                 .setCallback(new FutureCallback<String>() {
@@ -134,8 +121,7 @@ public class Profile extends AppCompatActivity implements PopupMenu.OnMenuItemCl
                 return true;
             case R.id.camera_photo:
 
-                if (checkSelfPermission(Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(Manifest.permission.CAMERA)   != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.CAMERA},
                             MY_CAMERA_PERMISSION_CODE);
                 } else {
@@ -203,7 +189,7 @@ public class Profile extends AppCompatActivity implements PopupMenu.OnMenuItemCl
 
 
     private void goHome() {
-        Intent intent = new Intent(Profile.this, HomeActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
     }

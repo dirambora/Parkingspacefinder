@@ -43,6 +43,11 @@ public abstract class Constant {
         }
     }
 
+    public static void logOutUser(Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences("parking", Context.MODE_PRIVATE).edit();
+        editor.clear().apply();
+    }
+
     public static void setUserProfile(Context context, JSONObject profile) {
         try {
             profile.accumulate("loggedIn", true);

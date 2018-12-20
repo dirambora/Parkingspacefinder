@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -51,26 +53,17 @@
 
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="251dp"
-        android:layout_height="0dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="52dp"
-        android:text="TextView" />
-
-
-    <TextView
         android:id="@+id/editText2"
-        android:layout_width="340dp"
-        android:layout_height="31dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="163dp"
+
         android:ems="10"
-        android:textSize="20sp"
         android:inputType="textPersonName"
-        android:text="Fullname" />
+        android:text="Fullname"
+        android:layout_marginBottom="15dp"
+        android:textSize="20sp" />
 
 
     <android.support.design.widget.TextInputLayout
@@ -78,20 +71,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="207dp"
+
         android:textColorHint="@color/colorPrimary">
 
         <EditText
             android:id="@+id/editText3"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
             android:ems="10"
+            android:hint="username"
             android:inputType="textPersonName"
-            android:text="Username"
-            android:hint="username"/>
+            android:text="Username" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -101,17 +94,17 @@
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="239dp"
         android:textColorHint="@color/colorPrimary">
 
         <EditText
             android:id="@+id/editText5"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginBottom="15dp"
+            android:hint="email"
             android:inputType="textEmailAddress"
-            android:text="Email"
-            android:hint="email"/>
+            android:text="Email" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -121,14 +114,15 @@
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="165dp"
+
         android:textColorHint="@color/colorPrimary">
 
         <EditText
             android:id="@+id/editText6"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginBottom="15dp"
             android:inputType="textPassword"
             android:text="password"
             android:hint="password"/>
@@ -138,32 +132,9 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="93dp"
-        android:textColorHint="@color/colorPrimary">
 
-        <EditText
-            android:id="@+id/editText4"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Mobile Number"
-            android:hint="mobile number
-"/>
-    </android.support.design.widget.TextInputLayout>
-
-
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="130dp"
         android:textColorHint="@color/colorPrimary">
 
     </android.support.design.widget.TextInputLayout>
@@ -176,16 +147,39 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+
+        android:textColorHint="@color/colorPrimary">
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="15dp"
+            android:hint="mobile number"
+            android:inputType="textPersonName"
+            android:text="Mobile Number" />
+    </android.support.design.widget.TextInputLayout>
+<LinearLayout
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/button"
-        android:layout_width="129dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp"
         android:background="@drawable/button_background"
         android:text="SAVE" />
+</LinearLayout>
 
-</RelativeLayout>
+
+
+</LinearLayout>
 

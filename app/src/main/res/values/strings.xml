@@ -15,4 +15,8 @@
     <string name="location_permissions">Location Permissions</string>
     <string name="enable_geofences">Enable Geofences</string>
     <string name="title_activity_profile">Profile</string>
+    <string name="facebook_app_id">599551120459699</string>
+    <string name="fb_login_protocol_scheme">fb599551120459699</string>
+    <string name="map_list_header_txt">map</string>
+
 </resources>

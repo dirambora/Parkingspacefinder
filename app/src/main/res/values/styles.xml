@@ -30,4 +30,11 @@
     <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.Light" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="MyDialogAnimationTheme" parent="Base.Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowAnimationStyle">@style/MyDialogAnimation.Window</item>
+    </style>
+    <style name="MyDialogAnimation.Window" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/anim_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_out</item>
+    </style>
 </resources>

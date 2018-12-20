@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/logocar1"
     android:fitsSystemWindows="true">
 
@@ -19,8 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
-            />
+            android:layout_margin="16dp" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -41,17 +40,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:passwordToggleTint="#50acf7"
+            android:theme="@style/TextLabel"
             app:passwordToggleEnabled="true"
-            android:theme="@style/TextLabel">
+            app:passwordToggleTint="#50acf7">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
-                android:inputType="textPassword"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:hint="password" />
+                android:hint="password"
+                android:inputType="textPassword"
+                android:textColor="@color/white" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -67,11 +66,30 @@
         <TextView
             android:id="@+id/textViewCreateAccount"
             android:layout_width="match_parent"
-            android:text="Dont have an account?CREATE  ACCOUNT"
-            android:onClick="CreateAccount"
-            android:textColor="#50acf7"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:onClick="CreateAccount"
+            android:text="Dont have an account?CREATE  ACCOUNT"
+            android:textColor="#50acf7" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="196dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
     </LinearLayout>
+
+
 </ScrollView>

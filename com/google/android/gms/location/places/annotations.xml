@@ -1,0 +1,5 @@
+<root>
+    <item name='com.google.android.gms.location.places.AutocompleteFilter'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>
